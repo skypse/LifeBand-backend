@@ -1,8 +1,7 @@
-﻿namespace LifeBand_backend.Models
+﻿namespace LifeBand_backend.Dtos
 {
-    public class User
+    public class UserCreateDto
     {
-        public Guid Id { get; set; }
         public string? Nome { get; set; }
         public DateTime Data_Nascimento { get; set; }
         public string? Telefone { get; set; }
@@ -14,6 +13,5 @@
         public string? Historico_Medico { get; set; }
         public string? Password { get; set; }
         public string? Endereco { get; set; }
-        public bool IsActive { get; set; } = true; // indica se o usuário está ativo ou desativado
     }
 }
