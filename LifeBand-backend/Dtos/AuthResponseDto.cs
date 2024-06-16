@@ -2,7 +2,8 @@
 {
     public class AuthResponseDto
     {
-        // Retornar resposta da autenticação
+        // retornar resposta da autenticação
         public string? Mensagem { get; set; }
+        public string? Token { get; set; }
     }
 }
