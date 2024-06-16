@@ -1,0 +1,6 @@
+@LifeBand_backend_HostAddress = http://localhost:5089
+
+GET {{LifeBand_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
