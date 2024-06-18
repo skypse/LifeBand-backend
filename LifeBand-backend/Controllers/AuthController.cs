@@ -24,14 +24,20 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(UserCredencialDto userCredencialDto)
     {
+        // busca um usuário que corresponda o email/senha e cpf fornecido
         var user = await _context.Users
-            .SingleOrDefaultAsync(u => u.Email == userCredencialDto.Email && u.Password == userCredencialDto.Password && u.Cpf == userCredencialDto.Cpf);
-
+            .SingleOrDefaultAsync(u => u.Email == userCredencialDto.Email &&
+                                       u.Password == userCredencialDto.Password &&
+                                       u.Cpf == userCredencialDto.Cpf);
+        // verifica se o usuário foi encontrado
         if (user != null)
         {
+            // gera um token JWT usando o gerenciador de autenticação JWT
             var token = _jwtAuthenticationManager.GenerateToken(user.Email, user.Cpf);
+            // retorna resposta 'sucesso' com o token JWT
             return Ok(new AuthResponseDto { Mensagem = "Login Efetuado com Sucesso!", Token = token });
         }
+        // retorna 'não autorizado' caso as credenciais sejam inválidas
         return Unauthorized(new AuthResponseDto { Mensagem = "Credenciais Inválidas!"});
     }
 }

@@ -11,6 +11,8 @@ using LifeBand_backend.Models;
 [Route("api/users")]
 public class UsersController : ControllerBase
 {
+    // readonly garante que o campo só pode ser atribuído durante inicialização
+    // ou no construtor da clase
     private readonly LifeBandDbContext _context;
 
     public UsersController(LifeBandDbContext context)
@@ -19,7 +21,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateUser([FromBody] UserCreateDto userCreateDto)
+    public async Task<IActionResult> CreateUser(UserCreateDto userCreateDto)
     {
         var user = new User
         {
