@@ -11,5 +11,15 @@ namespace LifeBand_backend.Data
         {
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Funcionario> Funcionarios { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Funcionario>()
+                .Property(f => f.Salario)
+                .HasColumnType("decimal(18, 2)"); // 18 dígitos de precisão e 2 casas decimais
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

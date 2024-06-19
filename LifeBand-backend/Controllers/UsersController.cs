@@ -178,7 +178,7 @@ public class UsersController : ControllerBase
             return NotFound();
         }
 
-        // Atualiza os dados do usuário com base no DTO recebido
+        // atualiza os dados do user
         user.Nome = userCreateDto.Nome;
         user.Data_Nascimento = userCreateDto.Data_Nascimento;
         user.Telefone = userCreateDto.Telefone;
@@ -228,6 +228,6 @@ public class UsersController : ControllerBase
             throw;
         }
 
-        return NoContent();
+        return Ok(new { message = "Usuário excluído com sucesso." });
     }
 }
