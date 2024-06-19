@@ -13,5 +13,6 @@
         public string? Cpf { get; set; }
         public string? Historico_Medico { get; set; }
         public string? Endereco { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }
