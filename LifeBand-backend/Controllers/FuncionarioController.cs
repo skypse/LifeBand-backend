@@ -1,7 +1,6 @@
 ﻿using LifeBand_backend.Data;
-using LifeBand_backend.Dtos;
+using LifeBand_backend.Dtos.Funcionario;
 using LifeBand_backend.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

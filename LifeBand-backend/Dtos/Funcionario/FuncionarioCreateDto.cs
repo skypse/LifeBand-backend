@@ -1,8 +1,7 @@
-﻿namespace LifeBand_backend.Dtos
+﻿namespace LifeBand_backend.Dtos.Funcionario
 {
-    public class FuncionarioDto
+    public class FuncionarioCreateDto
     {
-        public Guid Id { get; set; }
         public string? Nome { get; set; }
         public string? Sexo { get; set; }
         public string? Nacionalidade { get; set; }
@@ -12,12 +11,10 @@
         public string? RG { get; set; }
         public DateTime Data_Nascimento { get; set; }
         public string? CEP { get; set; }
-        public Guid RF { get; set; }
         public string? Formacao { get; set; }
         public string? Cargo { get; set; }
         public int Carga_Horaria { get; set; }
         public string? Expediente { get; set; }
         public decimal Salario { get; set; }
-        public bool IsActive { get; set; } = true;
     }
 }

@@ -5,6 +5,7 @@ using LifeBand_backend.Data;
 using LifeBand_backend.Dtos;
 using LifeBand_backend.Models;
 using LifeBand_backend.Services;
+using LifeBand_backend.Dtos.User;
 
 
 [ApiController]

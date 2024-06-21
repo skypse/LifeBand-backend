@@ -1,8 +1,7 @@
-﻿namespace LifeBand_backend.Dtos
+﻿namespace LifeBand_backend.Dtos.User
 {
-    public class UserDto
+    public class UserCreateDto
     {
-        public Guid Id { get; set; }
         public string? Nome { get; set; }
         public DateTime Data_Nascimento { get; set; }
         public string? Telefone { get; set; }
@@ -12,7 +11,8 @@
         public string? RG { get; set; }
         public string? Cpf { get; set; }
         public string? Historico_Medico { get; set; }
+        public string? Password { get; set; }
         public string? Endereco { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; }
     }
 }

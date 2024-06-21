@@ -1,4 +1,4 @@
-﻿namespace LifeBand_backend.Dtos
+﻿namespace LifeBand_backend.Dtos.User
 {
     public class UserCredencialDto
     {

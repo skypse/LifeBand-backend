@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LifeBand_backend.Data;
-using LifeBand_backend.Dtos;
 using LifeBand_backend.Models;
+using LifeBand_backend.Dtos.User;
+using LifeBand_backend.Dtos.Pulseira;
 
 [ApiController]
 [Route("api/users")]
@@ -77,7 +78,17 @@ public class UsersController : ControllerBase
                 Cpf = u.Cpf,
                 Historico_Medico = u.Historico_Medico,
                 Endereco = u.Endereco,
-                IsActive = u.IsActive
+                IsActive = u.IsActive,
+                Pulseiras = u.Pulseiras.Select(p => new PulseiraDto
+                {
+                    Id = p.Id,
+                    ContatoEmergenciaNome = p.ContatoEmergenciaNome,
+                    ContatoEmergenciaTelefone = p.ContatoEmergenciaTelefone,
+                    DoencaCronica = p.DoencaCronica,
+                    GrauDeRisco = p.GrauDeRisco,
+                    IsActive = p.IsActive,
+                    UserId = p.UserId
+                }).ToList()
             })
             .ToListAsync();
 
@@ -89,7 +100,9 @@ public class UsersController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(Guid id)
     {
-        var user = await _context.Users.FindAsync(id);
+        var user = await _context.Users
+            .Include(u => u.Pulseiras)
+            .FirstOrDefaultAsync(u => u.Id == id);
 
         if (user == null)
         {
@@ -108,18 +121,30 @@ public class UsersController : ControllerBase
             RG = user.RG,
             Cpf = user.Cpf,
             Historico_Medico = user.Historico_Medico,
-            Endereco = user.Endereco
+            Endereco = user.Endereco,
+            IsActive = user.IsActive,
+            Pulseiras = user.Pulseiras.Select(p => new PulseiraDto
+            {
+                Id = p.Id,
+                ContatoEmergenciaNome = p.ContatoEmergenciaNome,
+                ContatoEmergenciaTelefone = p.ContatoEmergenciaTelefone,
+                DoencaCronica = p.DoencaCronica,
+                GrauDeRisco = p.GrauDeRisco,
+                IsActive = p.IsActive,
+                UserId = p.UserId
+            }).ToList()
         };
 
         return Ok(userDto);
     }
 
+
     // GET api/users/ativo
     // Requisição paara puxar usuários ativos
-    [HttpGet("ativo")]
+    [HttpGet("active")]
     public async Task<IActionResult> GetActiveUsers()
     {
-        var users = await _context.Users
+        var activeUsers = await _context.Users
             .Where(u => u.IsActive)
             .Select(u => new UserDto
             {
@@ -133,19 +158,30 @@ public class UsersController : ControllerBase
                 RG = u.RG,
                 Cpf = u.Cpf,
                 Historico_Medico = u.Historico_Medico,
-                Endereco = u.Endereco
+                Endereco = u.Endereco,
+                IsActive = u.IsActive,
+                Pulseiras = u.Pulseiras.Select(p => new PulseiraDto
+                {
+                    Id = p.Id,
+                    ContatoEmergenciaNome = p.ContatoEmergenciaNome,
+                    ContatoEmergenciaTelefone = p.ContatoEmergenciaTelefone,
+                    DoencaCronica = p.DoencaCronica,
+                    GrauDeRisco = p.GrauDeRisco,
+                    IsActive = p.IsActive,
+                    UserId = p.UserId
+                }).ToList()
             })
             .ToListAsync();
 
-        return Ok(users);
+        return Ok(activeUsers);
     }
 
     // GET api/users/inativo
     // Requisição paara puxar usuários inátivos
-    [HttpGet("inativo")]
+    [HttpGet("inactive")]
     public async Task<IActionResult> GetInactiveUsers()
     {
-        var users = await _context.Users
+        var inactiveUsers = await _context.Users
             .Where(u => !u.IsActive)
             .Select(u => new UserDto
             {
@@ -159,11 +195,22 @@ public class UsersController : ControllerBase
                 RG = u.RG,
                 Cpf = u.Cpf,
                 Historico_Medico = u.Historico_Medico,
-                Endereco = u.Endereco
+                Endereco = u.Endereco,
+                IsActive = u.IsActive,
+                Pulseiras = u.Pulseiras.Select(p => new PulseiraDto
+                {
+                    Id = p.Id,
+                    ContatoEmergenciaNome = p.ContatoEmergenciaNome,
+                    ContatoEmergenciaTelefone = p.ContatoEmergenciaTelefone,
+                    DoencaCronica = p.DoencaCronica,
+                    GrauDeRisco = p.GrauDeRisco,
+                    IsActive = p.IsActive,
+                    UserId = p.UserId
+                }).ToList()
             })
             .ToListAsync();
 
-        return Ok(users);
+        return Ok(inactiveUsers);
     }
 
     // PUT api/users/{id}
@@ -188,6 +235,7 @@ public class UsersController : ControllerBase
         user.RG = userCreateDto.RG;
         user.Cpf = userCreateDto.Cpf;
         user.Historico_Medico = userCreateDto.Historico_Medico;
+        user.IsActive = userCreateDto.IsActive;
         user.Endereco = userCreateDto.Endereco;
 
         try

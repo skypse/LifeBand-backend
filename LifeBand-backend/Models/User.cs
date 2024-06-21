@@ -15,5 +15,7 @@
         public string? Password { get; set; }
         public string? Endereco { get; set; }
         public bool IsActive { get; set; } = true; // indica se o usuário está ativo ou desativado
+
+        public ICollection<Pulseira> Pulseiras { get; set; }
     }
 }
