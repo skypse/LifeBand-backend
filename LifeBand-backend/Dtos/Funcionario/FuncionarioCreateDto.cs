@@ -16,5 +16,7 @@
         public int Carga_Horaria { get; set; }
         public string? Expediente { get; set; }
         public decimal Salario { get; set; }
+        public string? Senha { get; set; }
+        public string? Cpf { get; set; }
     }
 }

@@ -41,6 +41,11 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Configure logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole(); // Logging para o console
+builder.Logging.AddDebug();   // Logging para o Debug Output
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

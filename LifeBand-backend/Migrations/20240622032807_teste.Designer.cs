@@ -4,6 +4,7 @@ using LifeBand_backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LifeBand_backend.Migrations
 {
     [DbContext(typeof(LifeBandDbContext))]
-    partial class LifeBandDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240622032807_teste")]
+    partial class teste
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,43 +24,6 @@ namespace LifeBand_backend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("LifeBand_backend.Models.Agendamento", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DataExame")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Diagnostico")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("FuncionarioId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<TimeSpan>("HorarioExame")
-                        .HasColumnType("time");
-
-                    b.Property<string>("Observacoes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TipoExame")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FuncionarioId");
-
-                    b.ToTable("Agendamentos");
-                });
 
             modelBuilder.Entity("LifeBand_backend.Models.Funcionario", b =>
                 {
@@ -72,9 +38,6 @@ namespace LifeBand_backend.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Cargo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Cpf")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Data_Nascimento")
@@ -107,15 +70,8 @@ namespace LifeBand_backend.Migrations
                     b.Property<string>("RG")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("Salario")
                         .HasColumnType("decimal(18, 2)");
-
-                    b.Property<string>("Senha")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Sexo")
                         .HasColumnType("nvarchar(max)");
@@ -195,10 +151,6 @@ namespace LifeBand_backend.Migrations
                     b.Property<string>("RG")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Telefone")
                         .HasColumnType("nvarchar(max)");
 
@@ -210,17 +162,6 @@ namespace LifeBand_backend.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("LifeBand_backend.Models.Agendamento", b =>
-                {
-                    b.HasOne("LifeBand_backend.Models.Funcionario", "FuncionarioResponsavel")
-                        .WithMany("Agendamentos")
-                        .HasForeignKey("FuncionarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FuncionarioResponsavel");
-                });
-
             modelBuilder.Entity("LifeBand_backend.Models.Pulseira", b =>
                 {
                     b.HasOne("LifeBand_backend.Models.User", "User")
@@ -230,11 +171,6 @@ namespace LifeBand_backend.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("LifeBand_backend.Models.Funcionario", b =>
-                {
-                    b.Navigation("Agendamentos");
                 });
 
             modelBuilder.Entity("LifeBand_backend.Models.User", b =>

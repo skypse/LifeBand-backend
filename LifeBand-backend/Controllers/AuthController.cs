@@ -1,44 +1,61 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using LifeBand_backend.Data;
-using LifeBand_backend.Dtos;
+using LifeBand_backend.Dtos.Funcionario;
 using LifeBand_backend.Models;
 using LifeBand_backend.Services;
-using LifeBand_backend.Dtos.User;
+using System.Threading.Tasks;
+using LifeBand_backend.Dtos;
 
-
-[ApiController]
-[Route("api/auth")]
-public class AuthController : ControllerBase
+namespace LifeBand_backend.Controllers
 {
-    private readonly LifeBandDbContext _context;
-    private readonly IJwtAuthenticationManager _jwtAuthenticationManager;
-
-    public AuthController(LifeBandDbContext context, IJwtAuthenticationManager jwtAuthenticationManager)
+    [ApiController]
+    [Route("api/auth")]
+    public class AuthController : ControllerBase
     {
-        _context = context;
-        _jwtAuthenticationManager = jwtAuthenticationManager;
-    }
+        private readonly LifeBandDbContext _context;
+        private readonly IJwtAuthenticationManager _jwtAuthenticationManager;
 
-    // api/auth/login POST
-    [HttpPost("login")]
-    public async Task<IActionResult> Login(UserCredencialDto userCredencialDto)
-    {
-        // busca um usuário que corresponda o email/senha e cpf fornecido
-        var user = await _context.Users
-            .SingleOrDefaultAsync(u => u.Email == userCredencialDto.Email &&
-                                       u.Password == userCredencialDto.Password &&
-                                       u.Cpf == userCredencialDto.Cpf);
-        // verifica se o usuário foi encontrado
-        if (user != null)
+        public AuthController(LifeBandDbContext context, IJwtAuthenticationManager jwtAuthenticationManager)
         {
-            // gera um token JWT usando o gerenciador de autenticação JWT
-            var token = _jwtAuthenticationManager.GenerateToken(user.Email, user.Cpf);
-            // retorna resposta 'sucesso' com o token JWT
-            return Ok(new AuthResponseDto { Mensagem = "Login Efetuado com Sucesso!", Token = token });
+            _context = context;
+            _jwtAuthenticationManager = jwtAuthenticationManager;
         }
-        // retorna 'não autorizado' caso as credenciais sejam inválidas
-        return Unauthorized(new AuthResponseDto { Mensagem = "Credenciais Inválidas!"});
+
+        // POST: api/auth/login
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(FuncionarioCredencialDto funcionarioCredencialDto)
+        {
+            // Verifica se as credenciais são de um funcionário
+            var funcionario = await _context.Funcionarios
+                .SingleOrDefaultAsync(f => f.Email == funcionarioCredencialDto.Email &&
+                                           f.Senha == funcionarioCredencialDto.Password &&
+                                           f.Cpf == funcionarioCredencialDto.Cpf);
+
+            if (funcionario != null)
+            {
+                // Gera um token JWT usando o gerenciador de autenticação JWT
+                var token = _jwtAuthenticationManager.GenerateToken(funcionario.Email, funcionario.Cpf, true);
+
+                return Ok(new AuthResponseDto { Mensagem = "Login do funcionário efetuado com sucesso!", Token = token });
+            }
+
+            // Verifica se as credenciais são de um paciente
+            var paciente = await _context.Users
+                .SingleOrDefaultAsync(u => u.Email == funcionarioCredencialDto.Email &&
+                                           u.Password == funcionarioCredencialDto.Password &&
+                                           u.Cpf == funcionarioCredencialDto.Cpf);
+
+            if (paciente != null)
+            {
+                // Gera um token JWT usando o gerenciador de autenticação JWT
+                var token = _jwtAuthenticationManager.GenerateToken(paciente.Email, paciente.Cpf, false);
+
+                return Ok(new AuthResponseDto { Mensagem = "Login do paciente efetuado com sucesso!", Token = token });
+            }
+
+            // Retorna 'não autorizado' caso as credenciais sejam inválidas
+            return Unauthorized(new AuthResponseDto { Mensagem = "Credenciais inválidas!" });
+        }
     }
 }

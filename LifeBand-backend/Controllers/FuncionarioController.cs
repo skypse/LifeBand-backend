@@ -3,6 +3,10 @@ using LifeBand_backend.Dtos.Funcionario;
 using LifeBand_backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LifeBand_backend.Controllers
 {
@@ -40,7 +44,8 @@ namespace LifeBand_backend.Controllers
                 Carga_Horaria = funcionarioCreateDto.Carga_Horaria,
                 Expediente = funcionarioCreateDto.Expediente,
                 Salario = funcionarioCreateDto.Salario,
-                IsActive = true
+                Senha = funcionarioCreateDto.Senha,
+                Cpf = funcionarioCreateDto.Cpf
             };
 
             _context.Funcionarios.Add(funcionario);
@@ -64,11 +69,15 @@ namespace LifeBand_backend.Controllers
                 Carga_Horaria = funcionario.Carga_Horaria,
                 Expediente = funcionario.Expediente,
                 Salario = funcionario.Salario,
-                IsActive = funcionario.IsActive
+                IsActive = funcionario.IsActive,
+                Cpf = funcionario.Cpf,
+                Senha = funcionario.Senha,
+                Role = funcionario.Role,
             };
 
             return Ok(funcionarioDto);
         }
+
         // GET api/funcionarios
         // Requisição para puxar todos os funcionários
         [HttpGet]
@@ -93,14 +102,18 @@ namespace LifeBand_backend.Controllers
                     Carga_Horaria = f.Carga_Horaria,
                     Expediente = f.Expediente,
                     Salario = f.Salario,
-                    IsActive = f.IsActive
+                    IsActive = f.IsActive,
+                    Cpf = f.Cpf,
+                    Senha = f.Senha,
+                    Role = f.Role,
                 })
                 .ToListAsync();
 
             return Ok(funcionarios);
         }
+
         // GET api/funcionarios/ativo
-        // Requesição para puxar todos os funcionários
+        // Requesição para puxar todos os funcionários ativos
         [HttpGet("ativo")]
         public async Task<IActionResult> GetActiveFuncionarios()
         {
@@ -123,12 +136,17 @@ namespace LifeBand_backend.Controllers
                     Cargo = f.Cargo,
                     Carga_Horaria = f.Carga_Horaria,
                     Expediente = f.Expediente,
-                    Salario = f.Salario
+                    Salario = f.Salario,
+                    IsActive = f.IsActive,
+                    Cpf = f.Cpf,
+                    Senha = f.Senha,
+                    Role = f.Role,
                 })
                 .ToListAsync();
 
             return Ok(funcionarios);
         }
+
         // GET api/funcionarios/inativo
         // Requesição para puxar todos os funcionários inativos
         [HttpGet("inativo")]
@@ -153,12 +171,17 @@ namespace LifeBand_backend.Controllers
                     Cargo = f.Cargo,
                     Carga_Horaria = f.Carga_Horaria,
                     Expediente = f.Expediente,
-                    Salario = f.Salario
+                    Salario = f.Salario,
+                    IsActive = f.IsActive,
+                    Cpf = f.Cpf,
+                    Senha = f.Senha,
+                    Role = f.Role,
                 })
                 .ToListAsync();
 
             return Ok(funcionarios);
         }
+
         // GET api/funcionarios/{id}
         // Requesição para puxar funcionários via ID
         [HttpGet("{id}")]
@@ -189,11 +212,15 @@ namespace LifeBand_backend.Controllers
                 Carga_Horaria = funcionario.Carga_Horaria,
                 Expediente = funcionario.Expediente,
                 Salario = funcionario.Salario,
-                IsActive = funcionario.IsActive
+                IsActive = funcionario.IsActive,
+                Cpf = funcionario.Cpf,
+                Senha = funcionario.Senha,
+                Role = funcionario.Role,
             };
 
             return Ok(funcionarioDto);
         }
+
         // PUT api/funcionarios/{id}
         // Requisição para atualizar um funcionario
         [HttpPut("{id}")]
@@ -221,6 +248,7 @@ namespace LifeBand_backend.Controllers
             funcionario.Carga_Horaria = funcionarioCreateDto.Carga_Horaria;
             funcionario.Expediente = funcionarioCreateDto.Expediente;
             funcionario.Salario = funcionarioCreateDto.Salario;
+            funcionario.Senha = funcionarioCreateDto.Senha;
 
             try
             {
@@ -229,7 +257,7 @@ namespace LifeBand_backend.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Erro atualizar o funcionário.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao atualizar o funcionário.");
                 throw;
             }
 
@@ -257,7 +285,7 @@ namespace LifeBand_backend.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-               
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao desativar o funcionário.");
                 throw;
             }
 

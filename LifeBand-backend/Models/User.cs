@@ -14,6 +14,7 @@
         public string? Historico_Medico { get; set; }
         public string? Password { get; set; }
         public string? Endereco { get; set; }
+        public string Role { get; set; } = "Paciente";
         public bool IsActive { get; set; } = true; // indica se o usuário está ativo ou desativado
 
         public ICollection<Pulseira> Pulseiras { get; set; }

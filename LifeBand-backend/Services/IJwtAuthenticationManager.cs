@@ -2,6 +2,6 @@
 {
     public interface IJwtAuthenticationManager
     {
-        string GenerateToken(string email, string cpf);
+        string GenerateToken(string email, string cpf, bool isFuncionario);
     }
 }

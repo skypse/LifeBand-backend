@@ -4,6 +4,7 @@ using LifeBand_backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LifeBand_backend.Migrations
 {
     [DbContext(typeof(LifeBandDbContext))]
-    partial class LifeBandDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240623191101_FuncionarioTableUpdate")]
+    partial class FuncionarioTableUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,13 +71,13 @@ namespace LifeBand_backend.Migrations
                     b.Property<string>("CEP")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CPF")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Carga_Horaria")
                         .HasColumnType("int");
 
                     b.Property<string>("Cargo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Cpf")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Data_Nascimento")
@@ -105,10 +108,6 @@ namespace LifeBand_backend.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RG")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Salario")
@@ -193,10 +192,6 @@ namespace LifeBand_backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RG")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefone")

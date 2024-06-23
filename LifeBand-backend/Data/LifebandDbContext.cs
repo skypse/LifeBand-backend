@@ -13,6 +13,7 @@ namespace LifeBand_backend.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }
         public DbSet<Pulseira> Pulseiras { get; set; }
+        public DbSet<Agendamento> Agendamentos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

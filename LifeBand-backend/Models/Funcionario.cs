@@ -19,5 +19,9 @@
         public string? Expediente { get; set; }
         public decimal Salario { get; set; }
         public bool IsActive { get; set; } = true;
+        public string Role { get; set; } = "Funcionario";
+        public ICollection<Agendamento>? Agendamentos { get; set; } // um-para-muitos
+        public string? Senha { get; set; }
+        public string? Cpf { get; set; }
     }
 }
