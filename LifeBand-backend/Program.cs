@@ -38,6 +38,18 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
+// config CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -54,6 +66,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+// permitindo CORS para o frontend React
+app.UseCors("AllowAllOrigins");
 
 app.UseHttpsRedirection();
 
